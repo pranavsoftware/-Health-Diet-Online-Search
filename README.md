@@ -117,6 +117,6 @@ All rights and usage policies are subject to the company's regulations.
 🎯 **Maintainers:**  
 - [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ajitesh-sharma) **Ajitesh Sharma**  
 - [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/divyam-goel) **Divyam Goel**  
-- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pranav-mahesh-rayban) **Pranav Mahesh Rayban**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pranav-mahesh-rayban) **Pranav Rayban**  
 - [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/satvik-jambagi) **Satvik Jambagi**  
 - [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tanisha-bagga) **Tanisha Bagga**  

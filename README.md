@@ -112,5 +112,9 @@ This project is licensed under the **MIT License**.
 
 ---
 
-🎯 **Maintainers:** Ajitesh Sharma, Divyam Goel, Pranav Mahesh Rayban, Satvik Jambagi, Tanisha Bagga  
-📧 Contact: [your-email@example.com](mailto:your-email@example.com)
+🎯 **Maintainers:**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ajitesh-sharma) **Ajitesh Sharma**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/divyam-goel) **Divyam Goel**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pranav-mahesh-rayban) **Pranav Mahesh Rayban**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/satvik-jambagi) **Satvik Jambagi**  
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tanisha-bagga) **Tanisha Bagga**  

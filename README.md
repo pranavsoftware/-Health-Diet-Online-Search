@@ -8,7 +8,7 @@ Health Diet Online Search is a web-based application that helps users find healt
 |--------|----------------------|---------------------|---------------------------------------------------------------|
 | 1      | **Ajitesh Sharma**   | Frontend Developer  | - Design Login & Registration pages <br> - Implement User Profile functionality |
 | 2      | **Divyam Goel**      | Frontend Developer  | - Create User Dashboard <br> - Implement Query Posting & Solution Viewing |
-| 3      | **Pranav Mahesh Rayban** | Backend Developer   | - Develop Backend with Node.js & Express <br> - Set up MongoDB Database <br> - Handle APIs for Users & Diet Experts <br> - Implement Authentication <br> - Deploy Backend to Cloud |
+| 3      | **Pranav Rayban** | Backend Developer   | - Develop Backend with Node.js & Express <br> - Set up MongoDB Database <br> - Handle APIs for Users & Diet Experts <br> - Implement Authentication <br> - Deploy Backend to Cloud |
 | 4      | **Satvik Jambagi**   | Frontend Developer  | - Design & Develop Diet Expert Dashboard <br> - Implement Feedback System |
 | 5      | **Tanisha Bagga**    | Frontend Developer  | - Style UI with CSS <br> - Optimize User Experience <br> - Ensure Mobile Responsiveness |
 

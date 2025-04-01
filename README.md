@@ -107,8 +107,10 @@ npm start
 - Commit changes and push (`git push origin feature-branch`)
 - Open a Pull Request
 
-## 📜 License
-This project is licensed under the **MIT License**.
+## 📜 License  
+This project is developed as part of an **internship at Physics Wallah Pvt. Ltd.** and follows the guidelines set by the company.  
+All rights and usage policies are subject to the company's regulations.  
+
 
 ---
 

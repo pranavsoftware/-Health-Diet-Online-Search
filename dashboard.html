@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthDiet - Modern Dashboard</title>
+
+    <!-- Google Fonts - Inter (modern sans-serif) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- CSS Variables --- */
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+            
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+            
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+            
+            /* Dimensions */
+            --navbar-height: 70px;
+            --banner-height: 340px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* --- Reset & Base Styles --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        button, input {
+            font-family: var(--font-primary);
+        }
+
+        /* --- Utility Classes --- */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 var(--space-8);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: var(--navbar-height);
+            transition: background-color var(--transition-medium) var(--ease-smooth);
+        }
+
+        .navbar-logo {
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            transition: transform var(--transition-fast) var(--ease-bounce);
+        }
+        .navbar-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .profile-section {
+            position: relative;
+        }
+
+        .profile-btn {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-medium) var(--ease-smooth);
+        }
+        .profile-btn:hover {
+            background-color: var(--secondary-bg);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+        .profile-btn:active {
+            transform: translateY(0);
+        }
+
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + var(--space-4));
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            min-width: 240px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(var(--space-3)) scale(0.98);
+            transform-origin: top right;
+            transition: opacity var(--transition-medium) var(--ease-smooth), 
+                        transform var(--transition-medium) var(--ease-smooth);
+        }
+        .profile-dropdown.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .profile-dropdown-header {
+            padding: var(--space-5) var(--space-6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+        }
+        .profile-dropdown-name {
+            font-weight: 600;
+            font-size: var(--font-size-md);
+            margin-bottom: var(--space-1);
+        }
+        .profile-dropdown-email {
+            color: var(--text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .profile-dropdown-menu {
+            padding: var(--space-3) 0;
+        }
+        .profile-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-3) var(--space-6);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            transition: all var(--transition-fast) ease;
+        }
+        .profile-dropdown a i {
+            color: var(--text-muted);
+            width: 18px;
+            text-align: center;
+            font-size: 1.1em;
+            transition: all var(--transition-fast) ease;
+        }
+        .profile-dropdown a:hover {
+            background-color: rgba(78, 204, 163, 0.1);
+            color: var(--accent-green);
+        }
+        .profile-dropdown a:hover i {
+            color: var(--accent-green);
+        }
+        .profile-dropdown a.logout {
+            color: #ff6b6b;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: var(--space-2);
+            padding-top: var(--space-4);
+        }
+        .profile-dropdown a.logout i {
+            color: #ff6b6b;
+        }
+        .profile-dropdown a.logout:hover {
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+
+        /* --- Banner --- */
+        .dashboard-banner {
+            width: 100%;
+            height: var(--banner-height);
+            background-image: url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1600&q=80');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin-top: var(--navbar-height);
+            position: relative;
+        }
+        .dashboard-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(15, 15, 18, 0.2), rgba(15, 15, 18, 0.8));
+            z-index: 1;
+        }
+
+        /* --- Main Content --- */
+        .dashboard-main-content {
+            padding: var(--space-16) var(--space-8);
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+        }
+
+        .dashboard-greeting {
+            font-size: var(--font-size-5xl);
+            font-weight: 800;
+            margin-bottom: var(--space-4);
+            letter-spacing: -1px;
+        }
+        .dashboard-greeting #username {
+            color: var(--accent-green);
+            position: relative;
+            display: inline-block;
+        }
+        .dashboard-greeting #username::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        .dashboard-quote {
+            font-size: var(--font-size-xl);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-16);
+            font-weight: 500;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        /* --- Card Grid --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-8);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card {
+            position: relative;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-medium) var(--ease-smooth);
+            cursor: pointer;
+            text-align: center;
+            min-height: 240px;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-medium) var(--ease-smooth);
+        }
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg), var(--shadow-accent);
+        }
+        .dashboard-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon-wrapper {
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-6);
+            transition: all var(--transition-medium) var(--ease-smooth);
+            border: 1px solid rgba(78, 204, 163, 0.2);
+        }
+        .dashboard-card:hover .card-icon-wrapper {
+            background-color: white;
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--glow-accent);
+        }
+
+        .dashboard-card i {
+            font-size: var(--font-size-3xl);
+            color: var(--accent-green);
+            transition: all var(--transition-medium) var(--ease-smooth);
+        }
+        .dashboard-card:hover i {
+            color: var(--text-on-accent);
+        }
+
+        .dashboard-card-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            transition: all var(--transition-medium) var(--ease-smooth);
+        }
+        .dashboard-card:hover .dashboard-card-title {
+            color: var(--text-on-accent);
+        }
+
+        .dashboard-card-description {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            transition: all var(--transition-medium) var(--ease-smooth);
+        }
+        .dashboard-card:hover .dashboard-card-description {
+            color: rgba(10, 10, 10, 0.8);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .dashboard-greeting {
+                font-size: var(--font-size-4xl);
+            }
+            .dashboard-quote {
+                font-size: var(--font-size-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --banner-height: 280px;
+            }
+            .navbar {
+                padding: 0 var(--space-5);
+            }
+            .navbar-logo {
+                font-size: var(--font-size-xl);
+            }
+            .dashboard-greeting {
+                font-size: var(--font-size-3xl);
+            }
+            .dashboard-quote {
+                font-size: var(--font-size-md);
+                margin-bottom: var(--space-12);
+            }
+            .dashboard-main-content {
+                padding: var(--space-12) var(--space-5);
+            }
+            .card-grid {
+                gap: var(--space-6);
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+            .dashboard-card {
+                min-height: 220px;
+                padding: var(--space-6);
+            }
+            .card-icon-wrapper {
+                width: 70px;
+                height: 70px;
+            }
+            .dashboard-card i {
+                font-size: var(--font-size-2xl);
+            }
+            .dashboard-card-title {
+                font-size: var(--font-size-lg);
+            }
+        }
+
+        @media (max-width: 576px) {
+            :root {
+                --navbar-height: 60px;
+                --banner-height: 220px;
+            }
+            .navbar-logo {
+                font-size: var(--font-size-lg);
+            }
+            .profile-btn {
+                width: 36px;
+                height: 36px;
+                font-size: var(--font-size-lg);
+            }
+            .dashboard-greeting {
+                font-size: var(--font-size-2xl);
+            }
+            .dashboard-quote {
+                font-size: var(--font-size-sm);
+                margin-bottom: var(--space-10);
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-5);
+            }
+            .dashboard-card {
+                min-height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">HealthDiet</a>
+        <div class="navbar-actions">
+            <div class="profile-section">
+                <button class="profile-btn" id="profileBtn" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="profile-dropdown-header">
+                        <div class="profile-dropdown-name"></div>
+                        <div class="profile-dropdown-email">@example.com</div>
+                    </div>
+                    <div class="profile-dropdown-menu">
+                        <a href="#"><i class="fas fa-user-circle"></i> My Profile</a>
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#"><i class="fas fa-bell"></i> Notifications</a>
+                        <a href="#"><i class="fas fa-chart-line"></i> Progress</a>
+                        <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Banner -->
+    <header class="dashboard-banner" id="dashboardBanner"></header>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main-content">
+        <div class="dashboard-greeting">Hey! <span id="username">{User}</span></div>
+        <p class="dashboard-quote">
+            "The greatest wealth is health. Your journey to wellness is a path of small, consistent choices."
+        </p>
+
+        <!-- Four Action Cards -->
+        <div class="card-grid">
+            <div class="dashboard-card" onclick="location.href='#'">
+                <div class="card-icon-wrapper"><i class="fas fa-lightbulb"></i></div>
+                <div class="dashboard-card-title">Health Advices</div>
+                <p class="dashboard-card-description">Expert tips for your wellness journey</p>
+            </div>
+            <div class="dashboard-card" onclick="location.href='#'">
+                <div class="card-icon-wrapper"><i class="fas fa-utensils"></i></div>
+                <div class="dashboard-card-title">My Diet Plan</div>
+                <p class="dashboard-card-description">Your personalized nutrition guide</p>
+            </div>
+            <div class="dashboard-card" onclick="location.href='#'">
+                <div class="card-icon-wrapper"><i class="fas fa-paper-plane"></i></div>
+                <div class="dashboard-card-title">Post Query</div>
+                <p class="dashboard-card-description">Ask our nutrition experts</p>
+            </div>
+            <div class="dashboard-card" onclick="location.href='#'">
+                <div class="card-icon-wrapper"><i class="fas fa-comment-dots"></i></div>
+                <div class="dashboard-card-title">See Queries</div>
+                <p class="dashboard-card-description">View responses to your questions</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Profile Dropdown Functionality
+        const profileBtn = document.getElementById('profileBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        profileBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isExpanded = profileBtn.getAttribute('aria-expanded') === 'true';
+            profileBtn.setAttribute('aria-expanded', String(!isExpanded));
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', (event) => {
+            if (!profileBtn.contains(event.target) && !profileDropdown.contains(event.target)) {
+                profileDropdown.classList.remove('active');
+                profileBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    </script>
+</body>
+</html>

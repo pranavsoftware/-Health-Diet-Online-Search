@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+            
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+            
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+            
+            /* Dimensions */
+            --navbar-height: 70px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        button, input {
+            font-family: var(--font-primary);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 var(--space-8);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: var(--navbar-height);
+            transition: background-color var(--transition-medium) var(--ease-smooth);
+        }
+
+        .navbar-logo {
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            transition: transform var(--transition-fast) var(--ease-bounce);
+            margin-right: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: calc(var(--navbar-height) + var(--space-8));
+            padding: var(--space-8);
+            max-width: 800px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-8);
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: var(--space-8);
+            position: relative;
+        }
+
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--secondary-bg);
+            margin-bottom: var(--space-4);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid var(--accent-green);
+            box-shadow: var(--shadow-accent);
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .edit-profile-picture {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform var(--transition-medium) var(--ease-bounce);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .edit-profile-picture:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .profile-email {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+        }
+
+        /* Profile Info */
+        .profile-info {
+            margin-bottom: var(--space-8);
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: var(--space-6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: var(--space-4);
+        }
+
+        .info-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-2);
+            display: flex;
+            align-items: center;
+        }
+
+        .info-label i {
+            margin-right: var(--space-2);
+            color: var(--accent-green);
+            width: 20px;
+            text-align: center;
+        }
+
+        .info-value {
+            font-size: var(--font-size-md);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Update Button */
+        .update-profile-btn {
+            display: block;
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-medium) var(--ease-smooth);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .update-profile-btn:hover {
+            background: var(--accent-gradient-hover);
+            box-shadow: var(--shadow-accent);
+            transform: translateY(-2px);
+        }
+
+        .update-profile-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalFadeIn 0.3s var(--ease-smooth);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: var(--space-6);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-3);
+            background-color: var(--secondary-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .btn-cancel {
+            padding: var(--space-3) var(--space-5);
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-cancel:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .btn-save {
+            padding: var(--space-3) var(--space-5);
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            color: var(--text-on-accent);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-save:hover {
+            background: var(--accent-gradient-hover);
+            box-shadow: var(--shadow-accent);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: var(--space-8);
+            right: var(--space-8);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            z-index: 3000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--transition-medium), transform var(--transition-medium);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast i {
+            color: var(--accent-green);
+            font-size: var(--font-size-xl);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 var(--space-5);
+            }
+            
+            .main-content {
+                padding: var(--space-5);
+            }
+            
+            .profile-card {
+                padding: var(--space-6);
+            }
+            
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-name {
+                font-size: var(--font-size-xl);
+            }
+            
+            .profile-email {
+                font-size: var(--font-size-sm);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0 var(--space-4);
+            }
+            
+            .main-content {
+                padding: var(--space-4);
+            }
+            
+            .profile-card {
+                padding: var(--space-5);
+            }
+            
+            .profile-picture {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .modal {
+                width: 95%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn-cancel, .btn-save {
+                width: 100%;
+            }
+            
+            .toast {
+                right: var(--space-4);
+                left: var(--space-4);
+                width: calc(100% - var(--space-8));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">HealthDiet</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-picture">
+                    <img src="https://via.placeholder.com/150" alt="" id="profileImage">
+                    <div class="edit-profile-picture" id="editProfilePicture">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <h1 class="profile-name" id="displayName">John Doe</h1>
+                <p class="profile-email" id="displayEmail">johndoe@example.com</p>
+            </div>
+
+            <div class="profile-info">
+                <div class="info-group">
+                    <div class="info-label">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                    </div>
+                    <div class="info-value" id="emailValue">johndoe@example.com</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">
+                        <i class="fas fa-phone"></i>
+                        <span>Phone Number</span>
+                    </div>
+                    <div class="info-value" id="phoneValue">+91 9876543210</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Date of Birth</span>
+                    </div>
+                    <div class="info-value" id="dobValue">15 January 1990</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">
+                        <i class="fas fa-weight"></i>
+                        <span>Weight</span>
+                    </div>
+                    <div class="info-value" id="weightValue">75 kg</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">
+                        <i class="fas fa-ruler-vertical"></i>
+                        <span>Height</span>
+                    </div>
+                    <div class="info-value" id="heightValue">175 cm</div>
+                </div>
+            </div>
+
+            <button class="update-profile-btn" id="updateProfileBtn">
+                <i class="fas fa-edit"></i> Update Profile
+            </button>
+        </div>
+    </main>
+
+    <!-- Update Profile Modal -->
+    <div class="modal-overlay" id="updateModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Update Profile</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="updateProfileForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" value="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" value="johndoe@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" value="+91 9876543210" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" id="dob" class="form-control" value="1990-01-15" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight" class="form-label">Weight (kg)</label>
+                        <input type="number" id="weight" class="form-control" value="75" min="1" max="300" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height" class="form-label">Height (cm)</label>
+                        <input type="number" id="height" class="form-control" value="175" min="50" max="300" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" id="cancelUpdate">Cancel</button>
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast success" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Profile updated successfully!</span>
+    </div>
+
+    <!-- File Input (Hidden) -->
+    <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const updateProfileBtn = document.getElementById('updateProfileBtn');
+            const updateModal = document.getElementById('updateModal');
+            const closeModal = document.getElementById('closeModal');
+            const cancelUpdate = document.getElementById('cancelUpdate');
+            const updateProfileForm = document.getElementById('updateProfileForm');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const editProfilePicture = document.getElementById('editProfilePicture');
+            const profilePictureInput = document.getElementById('profilePictureInput');
+            const profileImage = document.getElementById('profileImage');
+            
+            // Display Elements
+            const displayName = document.getElementById('displayName');
+            const displayEmail = document.getElementById('displayEmail');
+            const emailValue = document.getElementById('emailValue');
+            const phoneValue = document.getElementById('phoneValue');
+            const dobValue = document.getElementById('dobValue');
+            const weightValue = document.getElementById('weightValue');
+            const heightValue = document.getElementById('heightValue');
+            
+            // Form Elements
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const dobInput = document.getElementById('dob');
+            const weightInput = document.getElementById('weight');
+            const heightInput = document.getElementById('height');
+            
+            // Open Modal
+            updateProfileBtn.addEventListener('click', function() {
+                updateModal.style.display = 'flex';
+            });
+            
+            // Close Modal
+            function closeModalFunc() {
+                updateModal.style.display = 'none';
+            }
+            
+            closeModal.addEventListener('click', closeModalFunc);
+            cancelUpdate.addEventListener('click', closeModalFunc);
+            
+            // Close Modal when clicking outside
+            updateModal.addEventListener('click', function(e) {
+                if (e.target === updateModal) {
+                    closeModalFunc();
+                }
+            });
+            
+            // Format Date
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+            
+            // Update Profile
+            updateProfileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Update display values
+                displayName.textContent = nameInput.value;
+                displayEmail.textContent = emailInput.value;
+                emailValue.textContent = emailInput.value;
+                phoneValue.textContent = phoneInput.value;
+                dobValue.textContent = formatDate(dobInput.value);
+                weightValue.textContent = weightInput.value + ' kg';
+                heightValue.textContent = heightInput.value + ' cm';
+                
+                // Close modal
+                closeModalFunc();
+                
+                // Show toast notification
+                showToast('Profile updated successfully!');
+            });
+            
+            // Show Toast Notification
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(function() {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Profile Picture Upload
+            editProfilePicture.addEventListener('click', function() {
+                profilePictureInput.click();
+            });
+            
+            profilePictureInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        profileImage.src = e.target.result;
+                    };
+                    
+                    reader.readAsDataURL(e.target.files[0]);
+                    showToast('Profile picture updated!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

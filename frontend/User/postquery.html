@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Query | HealthDiet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+            
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+            
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+            
+            /* Dimensions */
+            --navbar-height: 70px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        button, input, textarea, select {
+            font-family: var(--font-primary);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 var(--space-8);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            height: var(--navbar-height);
+            transition: background-color var(--transition-medium) var(--ease-smooth);
+        }
+
+        .navbar-logo {
+            font-size: var(--font-size-2xl);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            transition: transform var(--transition-fast) var(--ease-bounce);
+            margin-right: auto;
+        }
+        .navbar-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+            
+        }
+
+        .navbar-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: var(--font-size-md);
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .navbar-link:hover {
+            color: var(--text-primary);
+        }
+
+        .navbar-link.active {
+            color: var(--accent-green);
+        }
+
+        .navbar-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 3px;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .profile-btn {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-medium) var(--ease-smooth);
+        }
+        .profile-btn:hover {
+            background-color: var(--secondary-bg);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: var(--navbar-height);
+            padding: var(--space-12) var(--space-8);
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .page-title {
+            font-size: var(--font-size-5xl);
+            font-weight: 800;
+            margin-bottom: var(--space-4);
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        .page-description {
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: var(--space-8) auto 0;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--space-8);
+        }
+
+        /* Query Form Card */
+        .query-form-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-6);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-4);
+            background-color: var(--secondary-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238a8aa3' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
+            padding-right: var(--space-10);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-medium) var(--ease-smooth);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-gradient-hover);
+            box-shadow: var(--shadow-accent);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Tips Card */
+        .tips-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+            height: fit-content;
+        }
+
+        .tips-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .tips-title i {
+            color: var(--accent-green);
+        }
+
+        .tips-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .tips-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .tips-section-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: var(--space-4);
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tip-item {
+            display: flex;
+            margin-bottom: var(--space-4);
+            color: var(--text-secondary);
+            font-size: var(--font-size-md);
+            line-height: 1.6;
+        }
+
+        .tip-item i {
+            color: var(--accent-green);
+            margin-right: var(--space-3);
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: rgba(78, 204, 163, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-6);
+            margin-top: var(--space-6);
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s var(--ease-smooth);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-icon {
+            font-size: var(--font-size-3xl);
+            color: var(--accent-green);
+            margin-bottom: var(--space-4);
+        }
+
+        .success-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: var(--space-2);
+        }
+
+        .success-text {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .page-title {
+                font-size: var(--font-size-4xl);
+            }
+            .content-grid {
+                gap: var(--space-6);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .tips-card {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 var(--space-5);
+            }
+            .navbar-logo {
+                font-size: var(--font-size-xl);
+            }
+            .page-title {
+                font-size: var(--font-size-3xl);
+            }
+            .page-description {
+                font-size: var(--font-size-md);
+            }
+            .main-content {
+                padding: var(--space-8) var(--space-5);
+            }
+            .query-form-card, .tips-card {
+                padding: var(--space-6);
+            }
+        }
+
+        @media (max-width: 576px) {
+            :root {
+                --navbar-height: 60px;
+            }
+            .navbar-logo {
+                font-size: var(--font-size-lg);
+            }
+            .navbar-link {
+                font-size: var(--font-size-sm);
+            }
+            .profile-btn {
+                width: 36px;
+                height: 36px;
+                font-size: var(--font-size-lg);
+            }
+            .page-title {
+                font-size: var(--font-size-2xl);
+            }
+            .page-description {
+                font-size: var(--font-size-sm);
+            }
+            .main-content {
+                padding: var(--space-6) var(--space-4);
+            }
+            .query-form-card, .tips-card {
+                padding: var(--space-5);
+            }
+            .form-title, .tips-title {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-logo">HealthDiet</a>
+        <div class="navbar-links">
+            <a href="dashboard.html" class="navbar-link">Dashboard</a>
+            <a href="#" class="navbar-link active">Post a Query</a>
+            <a href="#" class="navbar-link">My Queries</a>
+        </div>
+        <div class="navbar-actions">
+            <button class="profile-btn">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Get Advice?</h1>
+            <p class="page-description">
+                Have a health concern or question? Our team of medical professionals is here to help.
+                Submit your query below and receive personalized advice from our experts.
+            </p>
+        </div>
+
+        <div class="content-grid">
+            <!-- Query Form -->
+            <div class="query-form-card">
+                <h2 class="form-title">Submit Your Query</h2>
+                <form id="queryForm">
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <select id="subject" class="form-control" required>
+                            <option value="" disabled selected>Select a subject</option>
+                            <option value="general">General Health</option>
+                            <option value="nutrition">Nutrition & Diet</option>
+                            <option value="fitness">Fitness & Exercise</option>
+                            <option value="mental">Mental Health</option>
+                            <option value="sleep">Sleep Issues</option>
+                            <option value="chronic">Chronic Conditions</option>
+                            <option value="medication">Medication</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="concern" class="form-label">Your Concern</label>
+                        <textarea id="concern" class="form-control" placeholder="Describe your health concern or question in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additional" class="form-label">Additional Information</label>
+                        <textarea id="additional" class="form-control" placeholder="Any relevant medical history, current medications, lifestyle factors, or other details that might help us provide better advice..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="urgency" class="form-label">Urgency Level</label>
+                        <select id="urgency" class="form-control">
+                            <option value="low">Low - I'm just curious</option>
+                            <option value="medium" selected>Medium - I'd like advice soon</option>
+                            <option value="high">High - I need help quickly</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Query</button>
+
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <h3 class="success-title">Query Submitted Successfully!</h3>
+                        <p class="success-text">Our healthcare professionals will review your query and respond within 24-48 hours. You'll receive a notification when your answer is ready.</p>
+                        <button class="submit-btn" onclick="window.location.href='dashboard.html'">Return to Dashboard</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="tips-card">
+                <h2 class="tips-title"><i class="fas fa-lightbulb"></i> Health Pro Tips</h2>
+                
+                <div class="tips-section">
+                    <h3 class="tips-section-title">Staying Healthy</h3>
+                    <ul class="tips-list">
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Be physically active for at least 30 minutes most days of the week.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Eat a well-balanced diet with plenty of fruits, vegetables, and whole grains.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Stay hydrated by drinking at least 8 glasses of water daily.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Get 7-9 hours of quality sleep each night.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h3 class="tips-section-title">Writing Effective Queries</h3>
+                    <ul class="tips-list">
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Be specific about your symptoms, including when they started and their severity.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mention any relevant medical history or conditions you have.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>List any medications or supplements you're currently taking.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Include lifestyle factors like diet, exercise habits, and stress levels.</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Mention any treatments you've already tried and their effects.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tips-section">
+                    <h3 class="tips-section-title">When to Seek Immediate Help</h3>
+                    <ul class="tips-list">
+                        <li class="tip-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                            <span>Severe chest pain or difficulty breathing</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                            <span>Sudden severe headache or confusion</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                            <span>Uncontrolled bleeding</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                            <span>Severe allergic reactions</span>
+                        </li>
+                        <li class="tip-item">
+                            <i class="fas fa-exclamation-triangle" style="color: #ff6b6b;"></i>
+                            <span>For these symptoms, please call emergency services immediately rather than submitting a query.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const queryForm = document.getElementById('queryForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Form submission
+            queryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const subject = document.getElementById('subject').value;
+                const concern = document.getElementById('concern').value;
+                const additional = document.getElementById('additional').value;
+                const urgency = document.getElementById('urgency').value;
+                
+                // Simulate form submission (in a real app, you'd send this to a server)
+                console.log({
+                    subject,
+                    concern,
+                    additional,
+                    urgency,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Show success message
+                successMessage.classList.add('show');
+                
+                // Hide form fields
+                const formGroups = document.querySelectorAll('.form-group');
+                const submitBtn = document.querySelector('.submit-btn');
+                
+                formGroups.forEach(group => {
+                    group.style.display = 'none';
+                });
+                submitBtn.style.display = 'none';
+            });
+            
+            // Dynamic subject field
+            const subjectField = document.getElementById('subject');
+            
+            subjectField.addEventListener('change', function() {
+                const selectedSubject = this.value;
+                const concernField = document.getElementById('concern');
+                
+                // Provide placeholder text based on selected subject
+                switch(selectedSubject) {
+                    case 'general':
+                        concernField.placeholder = "Describe your general health concern or question...";
+                        break;
+                    case 'nutrition':
+                        concernField.placeholder = "Describe your nutrition or diet-related question...";
+                        break;
+                    case 'fitness':
+                        concernField.placeholder = "Describe your fitness or exercise-related question...";
+                        break;
+                    case 'mental':
+                        concernField.placeholder = "Describe your mental health concern or question...";
+                        break;
+                    case 'sleep':
+                        concernField.placeholder = "Describe your sleep-related issues or questions...";
+                        break;
+                    case 'chronic':
+                        concernField.placeholder = "Describe your chronic condition and specific questions...";
+                        break;
+                    case 'medication':
+                        concernField.placeholder = "Describe your medication-related question...";
+                        break;
+                    default:
+                        concernField.placeholder = "Describe your health concern or question in detail...";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #121212;
-            --bg-secondary: #1e1e1e;
+            --bg-primary: #0f0f12;
+            --bg-secondary: #17171f;
             --text-primary: rgba(255, 255, 255, 0.87);
             --text-secondary: rgba(255, 255, 255, 0.6);
             --accent: #4ecca3;
@@ -84,7 +84,7 @@
             background-color: var(--accent);
             color: var(--bg-primary);
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: 0.8rem 2.5rem;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
@@ -103,8 +103,8 @@
         }
         
         .btn-outline:hover {
-            background-color: var(--accent);
-            color: var(--bg-primary);
+            background-color: rgba(78, 204, 163, 0.1);
+            color: var(--accent);
         }
         
         .hero {
@@ -412,7 +412,7 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="login.html" class="btn btn-outline">Login</a></li>
+                <li><a href="signup.html" class="btn btn-outline">Login</a></li>
             </ul>
         </div>
     </header>
@@ -422,7 +422,7 @@
             <div class="hero-content">
                 <h1>Discover Your Perfect Diet Plan</h1>
                 <p>Personalized nutrition recommendations based on your health profile, preferences, and goals.</p>
-                <a href="register.html" class="btn">Get Started</a>
+                <a href="signup.html" class="btn">Get Started</a>
             </div>
         </div>
     </section>
@@ -468,4 +468,23 @@
                 <div class="about-text">
                     <h2>About Health Diet Online Search</h2>
                     <p>Our platform helps you find the perfect diet plan based on your unique health profile. We understand that each person has different nutritional needs based on their medical history, cultural background, and personal preferences.</p>
-                    <p>Using advanced data mining techniques, we analyze patterns and recommend diets that can help you maintain
+                    <p>Using advanced data mining techniques, we analyze patterns and recommend diets that can help you maintain optimal health and achieve your wellness goals.</p>
+                    <a href="about.html" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
+
+</html>

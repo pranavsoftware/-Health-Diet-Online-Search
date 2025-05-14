@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Dashboard | HealthAdvice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+            
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+            
+            /* Additional Accent Colors */
+            --accent-blue: #4e92cc;
+            --accent-blue-hover: #3d7eb8;
+            --accent-blue-gradient: linear-gradient(135deg, #4e92cc, #3d7eb8);
+            --accent-red: #e05c5c;
+            --accent-red-hover: #d04545;
+            --accent-orange: #f0a04b;
+            --accent-purple: #9b59b6;
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+            
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+            
+            /* Dimensions */
+            --navbar-height: 70px;
+            --sidebar-width: 250px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        button, input, textarea, select {
+            font-family: var(--font-primary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--card-bg);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            transition: transform var(--transition-medium) var(--ease-smooth);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-logo {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .sidebar-toggle:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-6) 0;
+        }
+
+        .sidebar-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .sidebar-section-title {
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0 var(--space-6);
+            margin-bottom: var(--space-3);
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav-item {
+            margin-bottom: var(--space-1);
+        }
+
+        .sidebar-nav-link {
+            display: flex;
+            align-items: center;
+            padding: var(--space-3) var(--space-6);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .sidebar-nav-link:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-nav-link.active {
+            color: var(--accent-green);
+            background-color: rgba(78, 204, 163, 0.1);
+        }
+
+        .sidebar-nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent-gradient);
+            border-radius: 0 3px 3px 0;
+        }
+
+        .sidebar-nav-link i {
+            margin-right: var(--space-3);
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: var(--space-6);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .expert-profile {
+            display: flex;
+            align-items: center;
+        }
+
+        .expert-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: var(--space-3);
+            border: 2px solid var(--accent-green);
+        }
+
+        .expert-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .expert-info {
+            flex: 1;
+        }
+
+        .expert-name {
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            color: var(--text-primary);
+        }
+
+        .expert-role {
+            font-size: var(--font-size-xs);
+            color: var(--accent-green);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            margin-top: var(--space-4);
+            padding: var(--space-2) var(--space-3);
+            background-color: rgba(224, 92, 92, 0.1);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            color: var(--accent-red);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(224, 92, 92, 0.2);
+        }
+
+        .logout-btn i {
+            margin-right: var(--space-2);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: var(--space-6);
+            transition: margin-left var(--transition-medium) var(--ease-smooth);
+        }
+
+        /* Header */
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .page-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .header-btn {
+            padding: var(--space-2) var(--space-4);
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .header-btn:hover {
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+        }
+
+        .header-btn.primary {
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+            border: none;
+        }
+
+        .header-btn.primary:hover {
+            background: var(--accent-gradient-hover);
+        }
+
+        /* Search & Filter */
+        .search-filter {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-3) var(--space-3) var(--space-10);
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: var(--font-size-md);
+        }
+
+        .filter-dropdown {
+            position: relative;
+        }
+
+        .filter-btn {
+            padding: var(--space-3) var(--space-5);
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-secondary);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .filter-btn:hover {
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+        }
+
+        .filter-menu {
+            position: absolute;
+            top: calc(100% + var(--space-2));
+            right: 0;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            width: 200px;
+            z-index: 100;
+            overflow: hidden;
+            display: none;
+        }
+
+        .filter-menu.show {
+            display: block;
+            animation: fadeIn 0.2s var(--ease-smooth);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filter-option {
+            padding: var(--space-3) var(--space-4);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .filter-option:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-option.active {
+            background-color: rgba(78, 204, 163, 0.1);
+            color: var(--accent-green);
+        }
+
+        /* User Cards Grid */
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .user-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .user-card.selected {
+            box-shadow: 0 0 0 2px var(--accent-green), var(--shadow-md);
+        }
+
+        .user-banner {
+            height: 80px;
+            background: var(--accent-gradient);
+            position: relative;
+        }
+
+      
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            padding: var(--space-6);
+            padding-top: calc(var(--space-6) + 40px);
+        }
+
+        .user-name {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .user-email {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--space-4);
+        }
+
+        .user-stats {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .user-stat {
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .user-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .user-tag {
+            padding: var(--space-1) var(--space-3);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        .user-tag.active {
+            background-color: rgba(78, 204, 163, 0.1);
+            color: var(--accent-green);
+        }
+
+        .user-activity {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .user-activity i {
+            color: var(--accent-green);
+        }
+
+        .user-badge {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .user-badge.new {
+            background-color: rgba(78, 146, 204, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .user-badge.active {
+            background-color: rgba(78, 204, 163, 0.15);
+            color: var(--accent-green);
+        }
+
+        .user-badge.inactive {
+            background-color: rgba(224, 92, 92, 0.15);
+            color: var(--accent-red);
+        }
+
+        /* Action Menu */
+        .action-menu {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-4);
+            display: none;
+            flex-direction: column;
+            gap: var(--space-3);
+            z-index: 100;
+            min-width: 250px;
+        }
+
+        .action-menu.show {
+            display: flex;
+            animation: slideUp 0.3s var(--ease-bounce);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+            padding: 0 var(--space-2);
+        }
+
+        .action-menu-title {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+        }
+
+        .action-menu-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: var(--font-size-lg);
+            transition: color var(--transition-fast);
+        }
+
+        .action-menu-close:hover {
+            color: var(--text-primary);
+        }
+
+        .action-menu-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+            margin: var(--space-2) 0;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            color: var(--text-secondary);
+            background-color: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .action-btn i {
+            margin-right: var(--space-3);
+            width: 20px;
+            text-align: center;
+        }
+
+        .action-btn.primary {
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--accent-gradient-hover);
+        }
+
+        .action-btn.danger {
+            color: var(--accent-red);
+        }
+
+        .action-btn.danger:hover {
+            background-color: rgba(224, 92, 92, 0.1);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: var(--space-8);
+            gap: var(--space-2);
+        }
+
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--border-radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .pagination-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pagination-item.active {
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-4) var(--space-6);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            z-index: 2000;
+            opacity: 0;
+            transition: transform var(--transition-medium), opacity var(--transition-medium);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            font-size: var(--font-size-xl);
+        }
+
+        .toast-icon.success {
+            color: var(--accent-green);
+        }
+
+        .toast-icon.error {
+            color: var(--accent-red);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: var(--space-1);
+        }
+
+        .toast-message {
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: var(--font-size-lg);
+            transition: color var(--transition-fast);
+        }
+
+        .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Publish Advice Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            animation: modalFadeIn 0.3s var(--ease-smooth);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: var(--space-6);
+        }
+
+        .modal-footer {
+            padding: var(--space-6);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--space-4);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-4);
+            background-color: var(--secondary-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(78, 204, 163, 0.2);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238a8aa3' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
+            padding-right: var(--space-10);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-text {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            margin-top: var(--space-2);
+        }
+
+        /* Rich Text Editor */
+        .editor-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-3);
+            padding: var(--space-3);
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: var(--border-radius-md);
+        }
+
+        .editor-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .editor-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .editor-btn.active {
+            background-color: rgba(78, 204, 163, 0.1);
+            color: var(--accent-green);
+        }
+
+        .editor-divider {
+            width: 1px;
+            height: 24px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 0 var(--space-2);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .users-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 70px;
+            }
+            
+            .sidebar {
+                width: var(--sidebar-width);
+            }
+            
+            .sidebar.expanded {
+                width: 250px;
+                transform: translateX(0);
+                z-index: 1100;
+            }
+            
+            .sidebar-toggle {
+                display: block;
+            }
+            
+            .sidebar-logo, .sidebar-section-title, .expert-info, .logout-btn span {
+                display: none;
+            }
+            
+            .sidebar.expanded .sidebar-logo, 
+            .sidebar.expanded .sidebar-section-title, 
+            .sidebar.expanded .expert-info, 
+            .sidebar.expanded .logout-btn span {
+                display: block;
+            }
+            
+            .sidebar-nav-link span {
+                display: none;
+            }
+            
+            .sidebar.expanded .sidebar-nav-link span {
+                display: inline;
+            }
+            
+            .expert-profile {
+                justify-content: center;
+            }
+            
+            .sidebar.expanded .expert-profile {
+                justify-content: flex-start;
+            }
+            
+            .logout-btn {
+                justify-content: center;
+            }
+            
+            .sidebar.expanded .logout-btn {
+                justify-content: flex-start;
+            }
+            
+            .main-content {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+            
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .header-btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .modal-footer button {
+                width: 100%;
+            }
+            
+            .action-menu {
+                width: calc(100% - var(--space-8));
+                right: var(--space-4);
+                bottom: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="#" class="sidebar-logo">HealthAdvice</a>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="sidebar-section">
+                <h3 class="sidebar-section-title">MAIN</h3>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Queries</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 class="sidebar-section-title">CONTENT</h3>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link" id="publishAdviceLink">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Publish Advice</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-utensils"></i>
+                            <span>Diet Plans</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-file-medical-alt"></i>
+                            <span>Health Articles</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 class="sidebar-section-title">SETTINGS</h3>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-user-md"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
+                        <a href="#" class="sidebar-nav-link">
+                            <i class="fas fa-question"></i>
+                            <span>Help & Support</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="expert-profile">
+                <div class="expert-avatar">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dr. Sarah Johnson">
+                </div>
+                <div class="expert-info">
+                    <div class="expert-name">Dr. Sarah Johnson</div>
+                    <div class="expert-role">Cardiologist</div>
+                </div>
+            </div>
+            <button class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1 class="page-title">User Management</h1>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Refresh</span>
+                </button>
+                <button class="header-btn">
+                    <i class="fas fa-download"></i>
+                    <span>Export</span>
+                </button>
+                <button class="header-btn primary" id="publishAdviceBtn">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Publish Advice</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search users by name, email or query...">
+            </div>
+            <div class="filter-dropdown">
+                <button class="filter-btn" id="filterBtn">
+                    <i class="fas fa-filter"></i>
+                    <span>Filter</span>
+                </button>
+                <div class="filter-menu" id="filterMenu">
+                    <div class="filter-option active">All Users</div>
+                    <div class="filter-option">New Users</div>
+                    <div class="filter-option">Active Users</div>
+                    <div class="filter-option">Inactive Users</div>
+                    <div class="filter-option">With Pending Queries</div>
+                    <div class="filter-option">With Resolved Queries</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="users-grid">
+            <!-- User 1 -->
+            <div class="user-card" data-user-id="1">
+                <div class="user-banner"></div>
+                <div class="user-badge active">Active</div>
+                <div class="user-avatar">
+                </div>
+                <div class="user-info">
+                    <h3 class="user-name">user</h3>
+                    <p class="user-email">user@example.com</p>
+                    
+                    <div class="user-stats">
+                        <div class="user-stat">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Queries</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Resolved</div>
+                        </div>
+                        <div class="user-stat">
+                            <div class="stat-number">2</div>
+                            <div class="stat-label">Pending</div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-tags">
+                        <div class="user-tag">Cardiology</div>
+                        <div class="user-tag">Fitness</div>
+                        <div class="user-tag active">Urgent</div>
+                    </div>
+                    
+                    <div class="user-activity">
+                        <i class="fas fa-clock"></i>
+                        <span>Last active: 2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+     
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pagination-item">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="pagination-item active">1</div>
+            <div class="pagination-item">2</div>
+            <div class="pagination-item">3</div>
+            <div class="pagination-item">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </main>
+
+    <!-- Action Menu -->
+    <div class="action-menu" id="actionMenu">
+        <div class="action-menu-header">
+            <div class="action-menu-title">User Actions</div>
+            <button class="action-menu-close" id="closeActionMenu">&times;</button>
+        </div>
+        
+        <div class="action-menu-divider"></div>
+        
+        <button class="action-btn" id="viewQueryBtn">
+            <i class="fas fa-eye"></i>
+            <span>View Queries</span>
+        </button>
+        
+        <button class="action-btn" id="postSolutionBtn">
+            <i class="fas fa-reply"></i>
+            <span>Post Solution</span>
+        </button>
+        
+        <button class="action-btn" id="viewFeedbackBtn">
+            <i class="fas fa-comment-dots"></i>
+            <span>View Feedback</span>
+        </button>
+        
+        <button class="action-btn" id="publishDietBtn">
+            <i class="fas fa-utensils"></i>
+            <span>Publish Diet Plan</span>
+        </button>
+        
+        <div class="action-menu-divider"></div>
+        
+        <button class="action-btn">
+            <i class="fas fa-user"></i>
+            <span>View Profile</span>
+        </button>
+        
+        <button class="action-btn">
+            <i class="fas fa-envelope"></i>
+            <span>Send Message</span>
+        </button>
+        
+        <button class="action-btn danger">
+            <i class="fas fa-ban"></i>
+            <span>Block User</span>
+        </button>
+    </div>
+
+    <!-- Publish Advice Modal -->
+    <div class="modal-overlay" id="publishAdviceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Publish Health Advice</h2>
+                <button class="modal-close" id="closeAdviceModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adviceForm">
+                    <div class="form-group">
+                        <label for="adviceTitle" class="form-label">Title</label>
+                        <input type="text" id="adviceTitle" class="form-control" placeholder="Enter a clear, concise title for your advice">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adviceCategory" class="form-label">Category</label>
+                        <select id="adviceCategory" class="form-control">
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="general">General Health</option>
+                            <option value="nutrition">Nutrition & Diet</option>
+                            <option value="fitness">Fitness & Exercise</option>
+                            <option value="mental">Mental Health</option>
+                            <option value="sleep">Sleep</option>
+                            <option value="chronic">Chronic Conditions</option>
+                            <option value="preventive">Preventive Care</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adviceTags" class="form-label">Tags</label>
+                        <input type="text" id="adviceTags" class="form-control" placeholder="Enter tags separated by commas">
+                        <div class="form-text">Add relevant tags to help users find your advice (e.g., diabetes, exercise, stress)</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adviceContent" class="form-label">Content</label>
+                        <div class="editor-toolbar">
+                            <button type="button" class="editor-btn"><i class="fas fa-bold"></i></button>
+                            <button type="button" class="editor-btn"><i class="fas fa-italic"></i></button>
+                            <button type="button" class="editor-btn"><i class="fas fa-underline"></i></button>
+                            <div class="editor-divider"></div>
+                            <button type="button" class="editor-btn"><i class="fas fa-heading"></i></button>
+                            <button type="button" class="editor-btn"><i class="fas fa-list-ul"></i></button>
+                            <button type="button" class="editor-btn"><i class="fas fa-list-ol"></i></button>
+                            <div class="editor-divider"></div>
+                            <button type="button" class="editor-btn"><i class="fas fa-link"></i></button>
+                            <button type="button" class="editor-btn"><i class="fas fa-image"></i></button>
+                        </div>
+                        <textarea id="adviceContent" class="form-control" placeholder="Write your health advice here..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adviceVisibility" class="form-label">Visibility</label>
+                        <select id="adviceVisibility" class="form-control">
+                            <option value="public">Public - Visible to all users</option>
+                            <option value="registered">Registered Users Only</option>
+                            <option value="specific">Specific Users Only</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="header-btn" id="saveDraftBtn">Save as Draft</button>
+                <button class="header-btn primary" id="publishBtn">Publish Advice</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon success">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">Success!</div>
+            <div class="toast-message" id="toastMessage">Your action has been completed successfully.</div>
+        </div>
+        <button class="toast-close" id="closeToast">&times;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('expanded');
+            });
+            
+            // Filter Dropdown
+            const filterBtn = document.getElementById('filterBtn');
+            const filterMenu = document.getElementById('filterMenu');
+            
+            filterBtn.addEventListener('click', function() {
+            filterMenu.classList.toggle('show');
+            });
+            
+            // Close filter menu when clicking outside
+            document.addEventListener('click', function(e) {
+            if (!filterBtn.contains(e.target) && !filterMenu.contains(e.target)) {
+                filterMenu.classList.remove('show');
+            }
+            });
+            
+            // Filter options
+            const filterOptions = document.querySelectorAll('.filter-option');
+            
+            filterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                filterMenu.classList.remove('show');
+                
+                // Show toast notification
+                showToast(`Filtered by: ${this.textContent}`);
+            });
+            });
+            
+            // User Card Selection
+            const userCards = document.querySelectorAll('.user-card');
+            const actionMenu = document.getElementById('actionMenu');
+            let selectedUserId = null;
+            
+            userCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Toggle selection
+                if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                actionMenu.classList.remove('show');
+                selectedUserId = null;
+                } else {
+                userCards.forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                actionMenu.classList.add('show');
+                selectedUserId = this.getAttribute('data-user-id');
+                }
+            });
+            });
+            
+            // Close Action Menu
+            const closeActionMenu = document.getElementById('closeActionMenu');
+            
+            closeActionMenu.addEventListener('click', function() {
+            actionMenu.classList.remove('show');
+            userCards.forEach(card => card.classList.remove('selected'));
+            selectedUserId = null;
+            });
+            
+            // Action Buttons
+            const viewQueryBtn = document.getElementById('viewQueryBtn');
+            const postSolutionBtn = document.getElementById('postSolutionBtn');
+            const viewFeedbackBtn = document.getElementById('viewFeedbackBtn');
+            const publishDietBtn = document.getElementById('publishDietBtn');
+            
+            viewQueryBtn.addEventListener('click', function() {
+            // Redirect to view query page with user ID
+            showToast(`Redirecting to view queries for User ID: ${selectedUserId}`);
+            // In a real app: window.location.href = `view-query.html?userId=${selectedUserId}`;
+            });
+            
+            postSolutionBtn.addEventListener('click', function() {
+            // Redirect to post solution page with user ID
+            showToast(`Redirecting to post solution for User ID: ${selectedUserId}`);
+            // In a real app: window.location.href = `post-solution.html?userId=${selectedUserId}`;
+            });
+            
+            viewFeedbackBtn.addEventListener('click', function() {
+            // Redirect to view feedback page with user ID
+            showToast(`Redirecting to view feedback for User ID: ${selectedUserId}`);
+            // In a real app: window.location.href = `view-feedback.html?userId=${selectedUserId}`;
+            });
+            
+            publishDietBtn.addEventListener('click', function() {
+            // Redirect to publish diet page with user ID
+            showToast(`Redirecting to publish diet for User ID: ${selectedUserId}`);
+            // In a real app: window.location.href = `publish-diet.html?userId=${selectedUserId}`;
+            });
+            
+            // Publish Advice Modal
+            const publishAdviceBtn = document.getElementById('publishAdviceBtn');
+            const publishAdviceLink = document.getElementById('publishAdviceLink');
+            const publishAdviceModal = document.getElementById('publishAdviceModal');
+            const closeAdviceModal = document.getElementById('closeAdviceModal');
+            const publishBtn = document.getElementById('publishBtn');
+            const saveDraftBtn = document.getElementById('saveDraftBtn');
+            
+                        function openAdviceModal() {
+                            publishAdviceModal.style.display = 'flex';
+                        }
+                        
+                        publishAdviceBtn.addEventListener('click', openAdviceModal);
+                        publishAdviceLink.addEventListener('click', openAdviceModal);
+                        
+                        closeAdviceModal.addEventListener('click', function() {
+                            publishAdviceModal.style.display = 'none';
+                        });
+                        
+                        publishBtn.addEventListener('click', function() {
+                            // Simulate publishing
+                            showToast('Health advice published successfully!');
+                            publishAdviceModal.style.display = 'none';
+                        });
+                        
+                        saveDraftBtn.addEventListener('click', function() {
+                            // Simulate saving draft
+                            showToast('Draft saved successfully!');
+                        });
+                        
+                        // Toast Notification
+                        const toast = document.getElementById('toast');
+                        const closeToast = document.getElementById('closeToast');
+                        
+                        function showToast(message) {
+                            const toastMessage = document.getElementById('toastMessage');
+                            toastMessage.textContent = message;
+                            toast.classList.add('show');
+                            
+                            setTimeout(() => {
+                                toast.classList.remove('show');
+                            }, 3000);
+                        }
+                        
+                        closeToast.addEventListener('click', function() {
+                            toast.classList.remove('show');
+                        });
+                    });
+                </script>
+            </body>
+            </html>
+</div>

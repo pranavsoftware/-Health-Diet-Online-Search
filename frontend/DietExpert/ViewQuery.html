@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Queries | HealthDiet Expert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+
+            /* Dimensions */
+            --navbar-height: 70px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles (same as before) */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-primary); background-color: var(--primary-bg); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        button, input, textarea, select { font-family: var(--font-primary); }
+
+        /* Navbar (same as before, adjust active link) */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: var(--navbar-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 0 var(--space-8); box-shadow: var(--shadow-md); position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; height: var(--navbar-height); transition: background-color var(--transition-medium) var(--ease-smooth); }
+        .navbar-logo { font-size: var(--font-size-2xl); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: -0.5px; transition: transform var(--transition-fast) var(--ease-bounce); margin-right: auto; }
+        .navbar-logo:hover { transform: scale(1.05); }
+        .navbar-links { display: flex; align-items: center; gap: var(--space-6); }
+        .navbar-link { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: var(--font-size-md); transition: color var(--transition-fast); position: relative; }
+        .navbar-link:hover { color: var(--text-primary); }
+        .navbar-link.active { color: var(--accent-green); }
+        .navbar-link.active::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px; background: var(--accent-gradient); border-radius: 3px; }
+        .navbar-actions { display: flex; align-items: center; gap: var(--space-4); }
+        .profile-btn { background: var(--card-bg); border: none; color: var(--text-primary); font-size: var(--font-size-xl); cursor: pointer; padding: var(--space-2); border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; transition: all var(--transition-medium) var(--ease-smooth); }
+        .profile-btn:hover { background-color: var(--secondary-bg); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+        /* Main Content */
+        .main-content { margin-top: var(--navbar-height); padding: var(--space-12) var(--space-8); flex: 1; max-width: 1400px; width: 100%; margin-left: auto; margin-right: auto; }
+
+        /* Page Header */
+        .page-header { text-align: center; margin-bottom: var(--space-12); }
+        .page-title { font-size: var(--font-size-5xl); font-weight: 800; margin-bottom: var(--space-4); background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; position: relative; }
+        .page-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: var(--accent-gradient); border-radius: 2px; }
+        .page-description { font-size: var(--font-size-lg); color: var(--text-secondary); max-width: 800px; margin: var(--space-8) auto 0; }
+
+        /* Query List Section */
+        .query-list-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+        }
+
+        .query-list-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .query-item {
+            border: 1px solid var(--secondary-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .query-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .query-details {
+            margin-bottom: var(--space-4);
+        }
+
+        .query-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+            font-weight: 500;
+        }
+
+        .query-value {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .query-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            transition: all var(--transition-fast) var(--ease-smooth);
+        }
+
+        .view-details-btn {
+            background-color: var(--accent-green);
+            color: var(--text-on-accent);
+        }
+
+        .view-details-btn:hover {
+            background-color: var(--accent-green-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .respond-btn {
+            background-color: #5cb85c; /* Example: Success color */
+            color: var(--text-on-accent);
+        }
+
+        .respond-btn:hover {
+            background-color: #4cae4c;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .no-queries {
+            color: var(--text-muted);
+            font-size: var(--font-size-lg);
+            text-align: center;
+            padding: var(--space-10);
+        }
+
+        /* Responsive Adjustments (same as before) */
+        @media (max-width: 1024px) { /* ... */ }
+        @media (max-width: 900px) { /* ... */ }
+        @media (max-width: 768px) { /* ... */ }
+        @media (max-width: 576px) { /* ... */ }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="expert_dashboard.html" class="navbar-logo">HealthDiet Expert</a>
+        <div class="navbar-links">
+            <a href="#" class="navbar-link">Dashboard</a>
+            <a href="#" class="navbar-link active">View Queries</a>
+            <a href="#" class="navbar-link">My Responses</a>
+        </div>
+        <div class="navbar-actions">
+            <button class="profile-btn">
+                <i class="fas fa-user-md"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">User Queries</h1>
+            <p class="page-description">
+                Review and respond to queries submitted by users seeking health and dietary advice.
+            </p>
+        </div>
+
+        <section class="query-list-card">
+            <h2 class="query-list-title"><i class="fas fa-question-circle"></i> Recent Queries</h2>
+
+            <div class="query-item">
+                <div class="query-details">
+                    <p class="query-label">Subject:</p>
+                    <p class="query-value">Nutrition & Diet</p>
+                    <p class="query-label">Concern:</p>
+                    <p class="query-value">I've been feeling fatigued lately and suspect it might be related to my diet. Any recommendations for energy-boosting foods?</p>
+                    <p class="query-label">Urgency:</p>
+                    <p class="query-value">Medium</p>
+                    <p class="query-label">Submitted:</p>
+                    <p class="query-value">2025-05-16 10:30 AM IST</p>
+                </div>
+                <div class="query-actions">
+                    <button class="action-btn view-details-btn">View Details</button>
+                    <button class="action-btn respond-btn">Respond</button>
+                </div>
+            </div>
+
+            <div class="query-item">
+                <div class="query-details">
+                    <p class="query-label">Subject:</p>
+                    <p class="query-value">Fitness & Exercise</p>
+                    <p class="query-label">Concern:</p>
+                    <p class="query-value">What are some good beginner-friendly exercises I can do at home?</p>
+                    <p class="query-label">Urgency:</p>
+                    <p class="query-value">Low</p>
+                    <p class="query-label">Submitted:</p>
+                    <p class="query-value">2025-05-15 05:45 PM IST</p>
+                </div>
+                <div class="query-actions">
+                    <button class="action-btn view-details-btn">View Details</button>
+                    <button class="action-btn respond-btn">Respond</button>
+                </div>
+            </div>
+
+            </section>
+    </main>
+
+    </body>
+</html>

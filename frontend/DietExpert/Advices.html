@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Advices | HealthDiet Expert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+
+            /* Dimensions */
+            --navbar-height: 70px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-primary); background-color: var(--primary-bg); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        button, input, textarea, select { font-family: var(--font-primary); }
+
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: var(--navbar-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 0 var(--space-8); box-shadow: var(--shadow-md); position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; height: var(--navbar-height); transition: background-color var(--transition-medium) var(--ease-smooth); }
+        .navbar-logo { font-size: var(--font-size-2xl); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: -0.5px; transition: transform var(--transition-fast) var(--ease-bounce); margin-right: auto; }
+        .navbar-logo:hover { transform: scale(1.05); }
+        .navbar-links { display: flex; align-items: center; gap: var(--space-6); }
+        .navbar-link { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: var(--font-size-md); transition: color var(--transition-fast); position: relative; }
+        .navbar-link:hover { color: var(--text-primary); }
+        .navbar-link.active { color: var(--accent-green); }
+        .navbar-link.active::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px; background: var(--accent-gradient); border-radius: 3px; }
+        .navbar-actions { display: flex; align-items: center; gap: var(--space-4); }
+        .profile-btn { background: var(--card-bg); border: none; color: var(--text-primary); font-size: var(--font-size-xl); cursor: pointer; padding: var(--space-2); border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; transition: all var(--transition-medium) var(--ease-smooth); }
+        .profile-btn:hover { background-color: var(--secondary-bg); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+        /* Main Content */
+        .main-content { margin-top: var(--navbar-height); padding: var(--space-12) var(--space-8); flex: 1; max-width: 1400px; width: 100%; margin-left: auto; margin-right: auto; }
+
+        /* Page Header */
+        .page-header { text-align: center; margin-bottom: var(--space-12); }
+        .page-title { font-size: var(--font-size-5xl); font-weight: 800; margin-bottom: var(--space-4); background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; position: relative; }
+        .page-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: var(--accent-gradient); border-radius: 2px; }
+        .page-description { font-size: var(--font-size-lg); color: var(--text-secondary); max-width: 800px; margin: var(--space-8) auto 0; }
+
+        /* Advice List Section */
+        .advice-list-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+        }
+
+        .advice-list-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .advice-item {
+            border: 1px solid var(--secondary-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .advice-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .advice-details {
+            margin-bottom: var(--space-4);
+        }
+
+        .advice-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+            font-weight: 500;
+        }
+
+        .advice-value {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .advice-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            transition: all var(--transition-fast) var(--ease-smooth);
+        }
+
+        .view-query-btn {
+            background-color: var(--accent-green);
+            color: var(--text-on-accent);
+        }
+
+        .view-query-btn:hover {
+            background-color: var(--accent-green-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .edit-advice-btn {
+            background-color: #f0ad4e; /* Example: Warning color */
+            color: var(--text-on-accent);
+        }
+
+        .edit-advice-btn:hover {
+            background-color: #eea236;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .no-advices {
+            color: var(--text-muted);
+            font-size: var(--font-size-lg);
+            text-align: center;
+            padding: var(--space-10);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) { /* ... */ }
+        @media (max-width: 900px) { /* ... */ }
+        @media (max-width: 768px) { /* ... */ }
+        @media (max-width: 576px) { /* ... */ }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="expert_dashboard.html" class="navbar-logo">HealthDiet Expert</a>
+        <div class="navbar-links">
+            <a href="#" class="navbar-link">Dashboard</a>
+            <a href="#" class="navbar-link">View Queries</a>
+            <a href="#" class="navbar-link">View Feedback</a>
+            <a href="#" class="navbar-link active">My Advices</a>
+        </div>
+        <div class="navbar-actions">
+            <button class="profile-btn">
+                <i class="fas fa-user-md"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">My Provided Advices</h1>
+            <p class="page-description">
+                Review the advice you have given to users in response to their queries.
+            </p>
+        </div>
+
+        <section class="advice-list-card">
+            <h2 class="advice-list-title"><i class="fas fa-clipboard-check"></i> My Recent Advices</h2>
+
+            <div class="advice-item">
+                <div class="advice-details">
+                    <p class="advice-label">Query Subject:</p>
+                    <p class="advice-value">Nutrition & Diet</p>
+                    <p class="advice-label">User's Concern:</p>
+                    <p class="advice-value">I've been feeling fatigued lately and suspect it might be related to my diet. Any recommendations for energy-boosting foods?</p>
+                    <p class="advice-label">My Advice:</p>
+                    <p class="advice-value">Consider incorporating more iron-rich foods like spinach and lentils, as well as complex carbohydrates such as oats and brown rice. Ensure you're also getting enough Vitamin B12. Consulting a nutritionist for a personalized plan might be beneficial.</p>
+                    <p class="advice-label">Given On:</p>
+                    <p class="advice-value">2025-05-16 11:00 AM IST</p>
+                </div>
+                <div class="advice-actions">
+                    <button class="action-btn view-query-btn">View Original Query</button>
+                    <button class="action-btn edit-advice-btn">Edit Advice</button>
+                </div>
+            </div>
+
+            <div class="advice-item">
+                <div class="advice-details">
+                    <p class="advice-label">Query Subject:</p>
+                    <p class="advice-value">Fitness & Exercise</p>
+                    <p class="advice-label">User's Concern:</p>
+                    <p class="advice-value">What are some good beginner-friendly exercises I can do at home?</p>
+                    <p class="advice-label">My Advice:</p>
+                    <p class="advice-value">Great starting exercises include bodyweight squats, lunges, push-ups against a wall, and planks. Aim for 3 sets of 10-12 repetitions for each, and remember to listen to your body. Consistency is key!</p>
+                    <p class="advice-label">Given On:</p>
+                    <p class="advice-value">2025-05-15 06:30 PM IST</p>
+                </div>
+                <div class="advice-actions">
+                    <button class="action-btn view-query-btn">View Original Query</button>
+                    <button class="action-btn edit-advice-btn">Edit Advice</button>
+                </div>
+            </div>
+
+            </section>
+    </main>
+
+</body>
+</html>

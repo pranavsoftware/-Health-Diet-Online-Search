@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Queries | HealthDiet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Core Colors */
+            --primary-bg: #0f0f12;
+            --secondary-bg: #17171f;
+            --card-bg: #1e1e28;
+            --navbar-bg: rgba(15, 15, 18, 0.8);
+
+            /* Accent Colors */
+            --accent-green: #4ecca3;
+            --accent-green-hover: #3db38e;
+            --accent-gradient: linear-gradient(135deg, #4ecca3, #2ebd8e);
+            --accent-gradient-hover: linear-gradient(135deg, #3db38e, #25a47a);
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3cc;
+            --text-muted: #8a8aa3;
+            --text-on-accent: #0a0a0a;
+
+            /* Effects */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-accent: 0 10px 25px rgba(78, 204, 163, 0.25);
+            --glow-accent: 0 0 20px rgba(78, 204, 163, 0.4);
+
+            /* Dimensions */
+            --navbar-height: 70px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --border-radius-xl: 28px;
+
+            /* Transitions */
+            --transition-fast: 0.15s;
+            --transition-medium: 0.25s;
+            --transition-slow: 0.4s;
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-md: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            --font-size-5xl: 3rem;
+
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+        }
+
+        /* Reset & Base Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-primary); background-color: var(--primary-bg); color: var(--text-primary); line-height: 1.6; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        button, input, textarea, select { font-family: var(--font-primary); }
+
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background-color: var(--navbar-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 0 var(--space-8); box-shadow: var(--shadow-md); position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; height: var(--navbar-height); transition: background-color var(--transition-medium) var(--ease-smooth); }
+        .navbar-logo { font-size: var(--font-size-2xl); font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; letter-spacing: -0.5px; transition: transform var(--transition-fast) var(--ease-bounce); margin-right: auto; }
+        .navbar-logo:hover { transform: scale(1.05); }
+        .navbar-links { display: flex; align-items: center; gap: var(--space-6); }
+        .navbar-link { color: var(--text-secondary); text-decoration: none; font-weight: 600; font-size: var(--font-size-md); transition: color var(--transition-fast); position: relative; }
+        .navbar-link:hover { color: var(--text-primary); }
+        .navbar-link.active { color: var(--accent-green); }
+        .navbar-link.active::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px; background: var(--accent-gradient); border-radius: 3px; }
+        .navbar-actions { display: flex; align-items: center; gap: var(--space-4); }
+        .profile-btn { background: var(--card-bg); border: none; color: var(--text-primary); font-size: var(--font-size-xl); cursor: pointer; padding: var(--space-2); border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; transition: all var(--transition-medium) var(--ease-smooth); }
+        .profile-btn:hover { background-color: var(--secondary-bg); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+        /* Main Content */
+        .main-content { margin-top: var(--navbar-height); padding: var(--space-12) var(--space-8); flex: 1; max-width: 1400px; width: 100%; margin-left: auto; margin-right: auto; }
+
+        /* Page Header */
+        .page-header { text-align: center; margin-bottom: var(--space-12); }
+        .page-title { font-size: var(--font-size-5xl); font-weight: 800; margin-bottom: var(--space-4); background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; position: relative; }
+        .page-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: var(--accent-gradient); border-radius: 2px; }
+        .page-description { font-size: var(--font-size-lg); color: var(--text-secondary); max-width: 800px; margin: var(--space-8) auto 0; }
+
+        /* Query List Section */
+        .query-list-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+        }
+
+        .query-list-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .query-item {
+            border: 1px solid var(--secondary-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .query-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .query-details {
+            margin-bottom: var(--space-4);
+        }
+
+        .query-label {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--text-muted);
+            margin-bottom: var(--space-1);
+            font-weight: 500;
+        }
+
+        .query-value {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .query-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            transition: all var(--transition-fast) var(--ease-smooth);
+        }
+
+        .view-details-btn {
+            background-color: var(--accent-green);
+            color: var(--text-on-accent);
+        }
+
+        .view-details-btn:hover {
+            background-color: var(--accent-green-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Expert Response Styles */
+        .expert-response {
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-6);
+            margin-top: var(--space-6);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .expert-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .expert-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-green);
+            font-size: var(--font-size-xl);
+        }
+
+        .expert-info {
+            flex: 1;
+        }
+
+        .expert-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+        }
+
+        .expert-title {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+        }
+
+        .response-date {
+            font-size: var(--font-size-xs);
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        .response-content {
+            color: var(--text-secondary);
+            font-size: var(--font-size-md);
+            line-height: 1.7;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            margin-left: var(--space-3);
+        }
+
+        .status-answered {
+            background-color: rgba(92, 184, 92, 0.2);
+            color: #5cb85c;
+        }
+
+        .status-pending {
+            background-color: rgba(240, 173, 78, 0.2);
+            color: #f0ad4e;
+        }
+
+        .ask-new-btn {
+            background: var(--accent-gradient);
+            color: var(--text-on-accent);
+            padding: var(--space-3) var(--space-8);
+            border: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-medium);
+            display: block;
+            margin: var(--space-10) auto 0;
+            font-size: var(--font-size-md);
+        }
+
+        .ask-new-btn:hover {
+            background: var(--accent-gradient-hover);
+            box-shadow: var(--shadow-accent);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar-links {
+                gap: var(--space-4);
+            }
+            
+            .page-title {
+                font-size: var(--font-size-4xl);
+            }
+            
+            .page-description {
+                font-size: var(--font-size-md);
+            }
+            
+            .query-list-card {
+                padding: var(--space-6);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-links {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .query-item {
+                padding: var(--space-4);
+            }
+            
+            .expert-response {
+                padding: var(--space-4);
+            }
+            
+            .query-actions {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-logo">HealthDiet</a>
+        <div class="navbar-links">
+            <a href="#" class="navbar-link">Dashboard</a>
+            
+        </div>
+        <div class="navbar-actions">
+            <button class="profile-btn">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">My Health Queries</h1>
+            <p class="page-description">
+                Track your submitted health and dietary queries and view expert responses.
+            </p>
+        </div>
+
+        <section class="query-list-card">
+            <h2 class="query-list-title"><i class="fas fa-comment-medical"></i> Your Queries</h2>
+
+            <div class="query-item">
+                <div class="query-details">
+                    <p class="query-label">Subject:</p>
+                    <p class="query-value">Nutrition & Diet <span class="status-badge status-answered">Answered</span></p>
+                    <p class="query-label">Your Question:</p>
+                    <p class="query-value">I've been feeling fatigued lately and suspect it might be related to my diet. Any recommendations for energy-boosting foods?</p>
+                    <p class="query-label">Urgency:</p>
+                    <p class="query-value">Medium</p>
+                    <p class="query-label">Submitted:</p>
+                    <p class="query-value">2025-05-16 10:30 AM IST</p>
+                </div>
+                
+                <div class="expert-response">
+                    <div class="expert-header">
+                        <div class="expert-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="expert-info">
+                            <p class="expert-name">Dr. Priya Sharma</p>
+                            <p class="expert-title">Nutrition Specialist</p>
+                        </div>
+                        <p class="response-date">Responded: 2025-05-16 02:15 PM IST</p>
+                    </div>
+                    <div class="response-content">
+                        <p>Thank you for your question about fatigue and diet. Diet can indeed significantly impact your energy levels. Here are some recommendations:</p>
+                        <br>
+                        <p>1. Focus on complex carbohydrates like whole grains, which release energy slowly throughout the day.</p>
+                        <p>2. Include protein in each meal (lean meats, legumes, dairy) to stabilize blood sugar.</p>
+                        <p>3. Stay hydrated - even mild dehydration can cause fatigue.</p>
+                        <p>4. Consider iron-rich foods (leafy greens, lentils) as iron deficiency is a common cause of fatigue.</p>
+                        <p>5. Include B-vitamin rich foods like eggs, nuts, and seeds.</p>
+                        <br>
+                        <p>I'd also recommend getting basic blood work done to rule out any deficiencies. Feel free to follow up if you have more questions!</p>
+                    </div>
+                </div>
+                
+                <div class="query-actions">
+                    <button class="action-btn view-details-btn">View Full Details</button>
+                </div>
+            </div>
+
+            <div class="query-item">
+                <div class="query-details">
+                    <p class="query-label">Subject:</p>
+                    <p class="query-value">Fitness & Exercise <span class="status-badge status-pending">Pending</span></p>
+                    <p class="query-label">Your Question:</p>
+                    <p class="query-value">What are some good beginner-friendly exercises I can do at home?</p>
+                    <p class="query-label">Urgency:</p>
+                    <p class="query-value">Low</p>
+                    <p class="query-label">Submitted:</p>
+                    <p class="query-value">2025-05-15 05:45 PM IST</p>
+                </div>
+                <div class="query-actions">
+                    <button class="action-btn view-details-btn">View Full Details</button>
+                </div>
+            </div>
+
+            <div class="query-item">
+                <div class="query-details">
+                    <p class="query-label">Subject:</p>
+                    <p class="query-value">Weight Management <span class="status-badge status-answered">Answered</span></p>
+                    <p class="query-label">Your Question:</p>
+                    <p class="query-value">I've hit a plateau in my weight loss journey. I've been following a calorie deficit diet for 3 months and lost 8kg, but haven't seen any change in the last 2 weeks. What should I do?</p>
+                    <p class="query-label">Urgency:</p>
+                    <p class="query-value">Medium</p>
+                    <p class="query-label">Submitted:</p>
+                    <p class="query-value">2025-05-10 09:15 AM IST</p>
+                </div>
+                
+                <div class="expert-response">
+                    <div class="expert-header">
+                        <div class="expert-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="expert-info">
+                            <p class="expert-name">Dr. Rajesh Kumar</p>
+                            <p class="expert-title">Weight Management Specialist</p>
+                        </div>
+                        <p class="response-date">Responded: 2025-05-11 11:30 AM IST</p>
+                    </div>
+                    <div class="response-content">
+                        <p>Weight loss plateaus are completely normal and actually a sign that your body is adapting. Here are some strategies to overcome this plateau:</p>
+                        <br>
+                        <p>1. Reassess your calorie needs - as you lose weight, your body requires fewer calories.</p>
+                        <p>2. Change your exercise routine - your body adapts to the same workout over time.</p>
+                        <p>3. Focus on strength training to build muscle, which increases metabolism.</p>
+                        <p>4. Ensure you're getting enough sleep and managing stress.</p>
+                        <p>5. Track your food intake carefully - sometimes portion sizes creep up unnoticed.</p>
+                        <br>
+                        <p>Remember that weight fluctuations are normal, and two weeks isn't necessarily cause for concern. Focus on non-scale victories like how your clothes fit and your energy levels. Great job on losing 8kg so far!</p>
+                    </div>
+                </div>
+                
+                <div class="query-actions">
+                    <button class="action-btn view-details-btn">View Full Details</button>
+                </div>
+            </div>
+        </section>
+
+        <a href="postquery.html" class="ask-new-btn">Ask a New Question</a>
+    </main>
+</body>
+</html>
